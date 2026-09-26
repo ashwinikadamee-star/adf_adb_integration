@@ -1,0 +1,84 @@
+{
+	"name": "transformation",
+	"properties": {
+		"activities": [
+			{
+				"name": "bronze_notebook",
+				"type": "DatabricksNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Users/ashkadam986@gmail.com/Bronze"
+				},
+				"linkedServiceName": {
+					"referenceName": "azuredatabricks_ls",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "silver_Notebook",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "bronze_notebook",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Users/ashkadam986@gmail.com/silver"
+				},
+				"linkedServiceName": {
+					"referenceName": "azuredatabricks_ls",
+					"type": "LinkedServiceReference"
+				}
+			},
+			{
+				"name": "gold_Notebook",
+				"type": "DatabricksNotebook",
+				"dependsOn": [
+					{
+						"activity": "silver_Notebook",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Users/ashkadam986@gmail.com/gold"
+				},
+				"linkedServiceName": {
+					"referenceName": "azuredatabricks_ls",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"annotations": [],
+		"lastPublishTime": "2026-09-26T11:34:51Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
